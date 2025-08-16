@@ -13,8 +13,8 @@
     NSUserDefaults *d = [NSUserDefaults standardUserDefaults];
     BOOL deep = [d boolForKey:@"DeepScanEnabled"];
     BOOL hideDup = [d boolForKey:@"HideDuplicates"];
-    [self.deepScanSwitch setState: deep ? NSControlStateValueOn : NSControlStateValueOff];
-    [self.hideDupSwitch setState: hideDup ? NSControlStateValueOn : NSControlStateValueOff];
+    self.deepScanSwitch.state = deep ? NSControlStateValueOn : NSControlStateValueOff;
+    self.hideDupSwitch.state = hideDup ? NSControlStateValueOn : NSControlStateValueOff;
 }
 
 - (IBAction)deepScanToggled:(id)sender {

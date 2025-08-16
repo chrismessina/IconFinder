@@ -74,7 +74,7 @@ static NSArray *imageTypes;
 
 - (void)findImages
 {
-	NSAlert *searchingAlert = [NSAlert alertWithMessageText:@"Searching your Mac for images..." 
+	NSAlert *searchingAlert = [NSAlert alertWithMessageText:@"Searching your Mac for images (Spotlight)…" 
 											  defaultButton:@"Stop"
 											alternateButton:nil  
 												otherButton:nil 
@@ -95,9 +95,10 @@ static NSArray *imageTypes;
 	NSPipe *stdOut = [[NSPipe alloc] init];
 	
 	NSTask *find = [[NSTask alloc] init];
-	[find setLaunchPath:@"/usr/bin/find"];
-	NSString *arguments = @"/ -type f -and -name *.icns -or -name *.png -or -name *.tiff -or -name *.gif -or -name *.jpg -or -name *.jpeg -or -name *.pdf";
-	[find setArguments:[arguments componentsSeparatedByString:@" "]];
+	// Use Spotlight for fast, indexed search rather than walking the entire filesystem.
+	[find setLaunchPath:@"/usr/bin/mdfind"];
+	NSString *query = @"(kMDItemContentTypeTree == 'public.image' || kMDItemContentType == 'com.apple.icns' || kMDItemContentType == 'public.pdf' || kMDItemContentTypeTree == 'com.adobe.pdf')";
+	[find setArguments:@[@"-onlyin", @"/", query]];
 	[find setStandardOutput:stdOut];
 	self.findTask = find;
 	
@@ -141,7 +142,7 @@ static NSArray *imageTypes;
 					[[searchingAlert window] orderOut:self];
 					[self filterChanged:self.filterSegment];
 					self.findTask = nil;
-		
+			
 	}];
 	
 	[find launch];

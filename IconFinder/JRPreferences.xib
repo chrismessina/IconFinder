@@ -5,10 +5,10 @@
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="JRPreferencesController">
-            <connections>
+                <connections>
                 <outlet property="window" destination="W1" id="W1o"/>
-                <outlet property="deepScanSwitch" destination="SW1SW" id="out1"/>
-                <outlet property="hideDupSwitch" destination="SW2SW" id="out2"/>
+                <outlet property="deepScanSwitch" destination="SW1BTN" id="out1"/>
+                <outlet property="hideDupSwitch" destination="SW2BTN" id="out2"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
@@ -29,11 +29,12 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <switch translatesAutoresizingMaskIntoConstraints="NO" id="SW1SW">
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="SW1BTN">
+                                <buttonCell key="cell" type="switch" title="" bezelStyle="regularSquare" id="SW1BTNc"/>
                                 <connections>
                                     <action selector="deepScanToggled:" target="-2" id="act1"/>
                                 </connections>
-                            </switch>
+                            </button>
                         </subviews>
                     </stackView>
                     <textField translatesAutoresizingMaskIntoConstraints="NO" id="LBL1">
@@ -54,11 +55,12 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <switch translatesAutoresizingMaskIntoConstraints="NO" id="SW2SW">
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="SW2BTN">
+                                <buttonCell key="cell" type="switch" title="" bezelStyle="regularSquare" id="SW2BTNc"/>
                                 <connections>
                                     <action selector="hideDuplicatesToggled:" target="-2" id="act2"/>
                                 </connections>
-                            </switch>
+                            </button>
                         </subviews>
                     </stackView>
                 </subviews>

@@ -8,10 +8,8 @@
 
 #import "JRAppDelegate.h"
 #import "JRPreferencesController.h"
+#import "JRConstants.h"
 #import <CommonCrypto/CommonCrypto.h>
-
-
-static NSString * const JRAppSettingsDidChangeNotification = @"AppSettingsDidChange";
 
 @interface JRAppDelegate ()
 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA0000050000000000000001 /* JRConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0000060000000000000001 /* JRConstants.m */; };
 		AA0000010000000000000001 /* JRPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0000020000000000000001 /* JRPreferencesController.m */; };
 		AA0000030000000000000001 /* JRPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA0000040000000000000001 /* JRPreferences.xib */; };
 		D803A2F015A172F40053D84A /* JRCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = D803A2EF15A172F40053D84A /* JRCollectionView.m */; };
@@ -23,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AA0000060000000000000001 /* JRConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JRConstants.m; sourceTree = "cgroupe"; };
+		AA0000070000000000000001 /* JRConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JRConstants.h; sourceTree = "cgroupe"; };
 		AA0000000000000000000001 /* JRPreferencesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JRPreferencesController.h; sourceTree = "<group>"; };
 		AA0000020000000000000001 /* JRPreferencesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JRPreferencesController.m; sourceTree = "<group>"; };
 		AA0000040000000000000001 /* JRPreferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JRPreferences.xib; sourceTree = "<group>"; };
@@ -124,6 +127,8 @@
 				AA0000000000000000000001 /* JRPreferencesController.h */,
 				AA0000020000000000000001 /* JRPreferencesController.m */,
 				AA0000040000000000000001 /* JRPreferences.xib */,
+				AA0000070000000000000001 /* JRConstants.h */,
+				AA0000060000000000000001 /* JRConstants.m */,
 			);
 			path = IconFinder;
 			sourceTree = "<group>";
@@ -216,6 +221,7 @@
 				D8CD3E1915984FB300DFC994 /* JRImageCollectionViewItemViewController.m in Sources */,
 				D803A2F015A172F40053D84A /* JRCollectionView.m in Sources */,
 				AA0000010000000000000001 /* JRPreferencesController.m in Sources */,
+				AA0000050000000000000001 /* JRConstants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

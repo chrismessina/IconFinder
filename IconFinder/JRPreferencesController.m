@@ -4,8 +4,7 @@
 //
 
 #import "JRPreferencesController.h"
-
-extern NSString * const JRAppSettingsDidChangeNotification;
+#import "JRConstants.h"
 
 @implementation JRPreferencesController
 

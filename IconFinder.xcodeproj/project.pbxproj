@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		57B066DB2E51463F00CDE481 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57B066DA2E51463F00CDE481 /* Assets.xcassets */; };
 		AA0000050000000000000001 /* JRConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0000060000000000000001 /* JRConstants.m */; };
+		AA0000080000000000000001 /* PreferencesSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000090000000000000001 /* PreferencesSwift.swift */; };
 		D803A2F015A172F40053D84A /* JRCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = D803A2EF15A172F40053D84A /* JRCollectionView.m */; };
 		D803A30315A175790053D84A /* IconFinder.icns in Resources */ = {isa = PBXBuildFile; fileRef = D803A30215A175790053D84A /* IconFinder.icns */; };
 		D8CD3DF215981BA600DFC994 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8CD3DF115981BA600DFC994 /* Cocoa.framework */; };
@@ -20,15 +21,14 @@
 		D8CD3E1415984E5700DFC994 /* JRImageCollectionItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8CD3E1315984E5700DFC994 /* JRImageCollectionItemView.m */; };
 		D8CD3E1915984FB300DFC994 /* JRImageCollectionViewItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8CD3E1715984FB300DFC994 /* JRImageCollectionViewItemViewController.m */; };
 		D8CD3E1A15984FB300DFC994 /* JRImageCollectionViewItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D8CD3E1815984FB300DFC994 /* JRImageCollectionViewItemViewController.xib */; };
-		AA0000080000000000000001 /* PreferencesSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000090000000000000001 /* PreferencesSwift.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		57B066D82E511D4900CDE481 /* IconFinder.profdata */ = {isa = PBXFileReference; lastKnownFileType = file; path = IconFinder.profdata; sourceTree = "<group>"; };
 		57B066DA2E51463F00CDE481 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		AA0000090000000000000001 /* PreferencesSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesSwift.swift; sourceTree = "\u003cgroup\u003e"; };
 		AA0000060000000000000001 /* JRConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JRConstants.m; sourceTree = "<group>"; };
 		AA0000070000000000000001 /* JRConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JRConstants.h; sourceTree = "<group>"; };
+		AA0000090000000000000001 /* PreferencesSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesSwift.swift; sourceTree = u003cgroupu003e; };
 		D803A2EE15A172F40053D84A /* JRCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCollectionView.h; sourceTree = "<group>"; };
 		D803A2EF15A172F40053D84A /* JRCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCollectionView.m; sourceTree = "<group>"; };
 		D803A30215A175790053D84A /* IconFinder.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = IconFinder.icns; sourceTree = "<group>"; };
@@ -352,6 +352,8 @@
 		D8CD3E0C15981BA600DFC994 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CURRENT_PROJECT_VERSION = 100;
 				DEAD_CODE_STRIPPING = YES;
@@ -365,12 +367,16 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.joerhodes.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
+				SWIFT_VERSION = 5.0;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 			};
 			name = Debug;
 		};
 		D8CD3E0D15981BA600DFC994 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CURRENT_PROJECT_VERSION = 100;
 				DEAD_CODE_STRIPPING = YES;
@@ -384,6 +390,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.joerhodes.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
+				SWIFT_VERSION = 5.0;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 			};
 			name = Release;
 		};

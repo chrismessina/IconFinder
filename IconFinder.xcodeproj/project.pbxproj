@@ -28,7 +28,7 @@
 		57B066DA2E51463F00CDE481 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA0000060000000000000001 /* JRConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JRConstants.m; sourceTree = "<group>"; };
 		AA0000070000000000000001 /* JRConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JRConstants.h; sourceTree = "<group>"; };
-		AA0000090000000000000001 /* PreferencesSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesSwift.swift; sourceTree = u003cgroupu003e; };
+AA0000090000000000000001 /* PreferencesSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesSwift.swift; sourceTree = "<group>"; };
 		D803A2EE15A172F40053D84A /* JRCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCollectionView.h; sourceTree = "<group>"; };
 		D803A2EF15A172F40053D84A /* JRCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCollectionView.m; sourceTree = "<group>"; };
 		D803A30215A175790053D84A /* IconFinder.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = IconFinder.icns; sourceTree = "<group>"; };

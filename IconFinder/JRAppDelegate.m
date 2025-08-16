@@ -7,6 +7,7 @@
 //
 
 #import "JRAppDelegate.h"
+#import "JRPreferencesController.h"
 #import <CommonCrypto/CommonCrypto.h>
 
 
@@ -97,22 +98,22 @@ static NSArray *imageTypes;
 - (void)findImages
 {
 	BOOL deepScan = [[NSUserDefaults standardUserDefaults] boolForKey:@"DeepScanEnabled"];
-	NSAlert *searchingAlert = [NSAlert alertWithMessageText:@"Searching your Mac for images (Spotlight)…" 
-											  defaultButton:@"Stop"
-											alternateButton:nil  
-												otherButton:nil 
-								  informativeTextWithFormat:@"Please wait a moment."];
+	NSAlert *searchingAlert = [[NSAlert alloc] init];
+	searchingAlert.messageText = @"Searching your Mac for images";
+	searchingAlert.informativeText = deepScan ? @"Deep Scan walks the filesystem and may take longer." : @"Using Spotlight for a fast, indexed search.";
+	[searchingAlert addButtonWithTitle:@"Stop"];
 	NSProgressIndicator *progIndicator = [[NSProgressIndicator alloc] initWithFrame:NSMakeRect(0, 0, 200, 32)];
 	[progIndicator setIndeterminate:YES];
 	[progIndicator setDisplayedWhenStopped:NO];
-	
 	[searchingAlert setAccessoryView:progIndicator];
-	
-	[searchingAlert beginSheetModalForWindow:self.window 
-							   modalDelegate:self 
-							  didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) 
-								 contextInfo:NULL];
-	
+	[searchingAlert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+		// User pressed Stop
+		if (returnCode == NSAlertFirstButtonReturn) {
+			if (self.findTask) {
+				[self.findTask terminate];
+			}
+		}
+	}];
 	[progIndicator startAnimation:self];
 	
 	NSPipe *stdOut = [[NSPipe alloc] init];
@@ -179,17 +180,6 @@ static NSArray *imageTypes;
 	[fileHandle readInBackgroundAndNotify];
 }
 
-- (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
-{
-	// User Canceled the search
-	if (returnCode == NSAlertDefaultReturn)
-	{
-		[alert.window orderOut:self];
-		
-		if (self.findTask)
-			[self.findTask terminate];
-	}
-}
 
 - (void)writeImagePaths
 {

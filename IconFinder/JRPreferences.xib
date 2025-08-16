@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="23727" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23727"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="JRPreferencesController">
+            <connections>
+                <outlet property="window" destination="W1" id="W1o"/>
+                <outlet property="deepScanSwitch" destination="SW1" id="out1"/>
+                <outlet property="hideDupSwitch" destination="SW2" id="out2"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application"/>
+        <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="W1">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="NO" resizable="NO"/>
+            <rect key="contentRect" x="0" y="0" width="420" height="200"/>
+            <view key="contentView" id="C1">
+                <rect key="frame" x="0.0" y="0.0" width="420" height="200"/>
+                <subviews>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="SW1">
+                        <rect key="frame" x="20" y="140" width="200" height="18"/>
+                        <buttonCell key="cell" type="switch" title="Enable Deep Scan" bezelStyle="regularSquare" id="SW1c"/>
+                        <connections>
+                            <action selector="deepScanToggled:" target="-2" id="act1"/>
+                        </connections>
+                    </button>
+                    <textField translatesAutoresizingMaskIntoConstraints="NO" id="LBL1">
+                        <rect key="frame" x="40" y="115" width="340" height="34"/>
+                        <textFieldCell key="cell" title="Deep Scan walks the filesystem for images. It may take significantly longer than the default fast scan (Spotlight)." id="LBL1c">
+                            <font key="font" metaFont="system" size="11"/>
+                            <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="SW2">
+                        <rect key="frame" x="20" y="70" width="200" height="18"/>
+                        <buttonCell key="cell" type="switch" title="Hide Duplicates" bezelStyle="regularSquare" id="SW2c"/>
+                        <connections>
+                            <action selector="hideDuplicatesToggled:" target="-2" id="act2"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="SW1" firstAttribute="top" secondItem="C1" secondAttribute="top" constant="20" id="c1"/>
+                    <constraint firstItem="SW1" firstAttribute="leading" secondItem="C1" secondAttribute="leading" constant="20" id="c2"/>
+                    <constraint firstItem="LBL1" firstAttribute="top" secondItem="SW1" secondAttribute="bottom" constant="6" id="c3"/>
+                    <constraint firstItem="LBL1" firstAttribute="leading" secondItem="C1" secondAttribute="leading" constant="40" id="c4"/>
+                    <constraint firstItem="SW2" firstAttribute="top" secondItem="LBL1" secondAttribute="bottom" constant="16" id="c5"/>
+                    <constraint firstItem="SW2" firstAttribute="leading" secondItem="C1" secondAttribute="leading" constant="20" id="c6"/>
+                </constraints>
+            </view>
+        </window>
+    </objects>
+</document>
+

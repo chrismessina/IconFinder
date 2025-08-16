@@ -8,8 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class JRPreferencesController;
+
 @interface JRAppDelegate : NSObject <NSApplicationDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
+
+// Preferences
+- (IBAction)showPreferences:(id)sender;
 
 @end

@@ -10,6 +10,8 @@
 #import <CommonCrypto/CommonCrypto.h>
 
 
+static NSString * const JRAppSettingsDidChangeNotification = @"AppSettingsDidChange";
+
 @interface JRAppDelegate ()
 
 @property (strong) NSMutableArray *imagePaths;
@@ -22,6 +24,10 @@
 // Dedupe support
 @property (assign) BOOL hideDuplicates;
 @property (strong) NSMutableDictionary<NSString*, NSString*> *pathToHash; // path -> sha256 hex
+
+// Preferences
+@property (strong) JRPreferencesController *preferencesController;
+@property (strong) NSTimer *rescanTimer;
 
 @end
 
@@ -61,6 +67,8 @@ static NSArray *imageTypes;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 	NSFileManager *fm = [NSFileManager defaultManager];
+	// Observe settings changes
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(settingsDidChange:) name:JRAppSettingsDidChangeNotification object:nil];
 	self.filters = [NSMutableSet set];
 	self.filterPredicate = [NSPredicate predicateWithValue:YES];
 	self.hideDuplicates = [[NSUserDefaults standardUserDefaults] boolForKey:@"HideDuplicates"];
@@ -88,6 +96,7 @@ static NSArray *imageTypes;
 
 - (void)findImages
 {
+	BOOL deepScan = [[NSUserDefaults standardUserDefaults] boolForKey:@"DeepScanEnabled"];
 	NSAlert *searchingAlert = [NSAlert alertWithMessageText:@"Searching your Mac for images (Spotlight)…" 
 											  defaultButton:@"Stop"
 											alternateButton:nil  
@@ -109,10 +118,17 @@ static NSArray *imageTypes;
 	NSPipe *stdOut = [[NSPipe alloc] init];
 	
 	NSTask *find = [[NSTask alloc] init];
-	// Use Spotlight for fast, indexed search rather than walking the entire filesystem.
-	[find setLaunchPath:@"/usr/bin/mdfind"];
-	NSString *query = @"(kMDItemContentTypeTree == 'public.image' || kMDItemContentType == 'com.apple.icns' || kMDItemContentType == 'public.pdf' || kMDItemContentTypeTree == 'com.adobe.pdf')";
-	[find setArguments:@[@"-onlyin", @"/", query]];
+	if (deepScan) {
+		// Deep scan: walk filesystem like original implementation (can be optimized later with allow/deny lists)
+		[find setLaunchPath:@"/usr/bin/find"];
+		NSString *arguments = @"/ -type f -and -name *.icns -or -name *.png -or -name *.tiff -or -name *.gif -or -name *.jpg -or -name *.jpeg -or -name *.pdf";
+		[find setArguments:[arguments componentsSeparatedByString:@" "]];
+	} else {
+		// Fast scan: Spotlight
+		[find setLaunchPath:@"/usr/bin/mdfind"];
+		NSString *query = @"(kMDItemContentTypeTree == 'public.image' || kMDItemContentType == 'com.apple.icns' || kMDItemContentType == 'public.pdf' || kMDItemContentTypeTree == 'com.adobe.pdf')";
+		[find setArguments:@[@"-onlyin", @"/", query]];
+	}
 	[find setStandardOutput:stdOut];
 	self.findTask = find;
 	
@@ -287,6 +303,39 @@ static NSArray *imageTypes;
 	}
 	[self willChangeValueForKey:@"imagePaths"];
 	[self didChangeValueForKey:@"imagePaths"];
+}
+
+#pragma mark - Settings
+
+- (IBAction)showPreferences:(id)sender
+{
+	if (!self.preferencesController) {
+		self.preferencesController = [[JRPreferencesController alloc] initWithWindowNibName:@"JRPreferences"];
+	}
+	[self.preferencesController showWindow:self];
+	[NSApp activateIgnoringOtherApps:YES];
+}
+
+- (void)settingsDidChange:(NSNotification *)note
+{
+	// Debounced restart
+	[self.rescanTimer invalidate];
+	self.rescanTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(restartScanDueToSettings) userInfo:nil repeats:NO];
+}
+
+- (void)restartScanDueToSettings
+{
+	// Apply updated preferences
+	self.hideDuplicates = [[NSUserDefaults standardUserDefaults] boolForKey:@"HideDuplicates"];
+	// Stop current scan if running
+	if (self.findTask) {
+		[self.findTask terminate];
+	}
+	// Optionally clear current results to avoid mixing modes
+	self.imagePaths = [NSMutableArray array];
+	[self willChangeValueForKey:@"imagePaths"]; // trigger UI refresh
+	[self didChangeValueForKey:@"imagePaths"];
+	[self findImages];
 }
 
 #pragma mark - Hashing

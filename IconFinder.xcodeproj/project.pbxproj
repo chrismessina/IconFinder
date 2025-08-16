@@ -24,8 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		AA0000060000000000000001 /* JRConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JRConstants.m; sourceTree = "cgroupe"; };
-		AA0000070000000000000001 /* JRConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JRConstants.h; sourceTree = "cgroupe"; };
+AA0000060000000000000001 /* JRConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JRConstants.m; sourceTree = "<group>"; };
+AA0000070000000000000001 /* JRConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JRConstants.h; sourceTree = "<group>"; };
 		AA0000000000000000000001 /* JRPreferencesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JRPreferencesController.h; sourceTree = "<group>"; };
 		AA0000020000000000000001 /* JRPreferencesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JRPreferencesController.m; sourceTree = "<group>"; };
 		AA0000040000000000000001 /* JRPreferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JRPreferences.xib; sourceTree = "<group>"; };

@@ -369,6 +369,7 @@ AA0000090000000000000001 /* PreferencesSwift.swift */ = {isa = PBXFileReference;
 				WRAPPER_EXTENSION = app;
 				SWIFT_VERSION = 5.0;
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "IconFinder/IconFinder-Bridging-Header.h";
 			};
 			name = Debug;
 		};

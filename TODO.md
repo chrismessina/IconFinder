@@ -32,7 +32,10 @@ High-level plan to modernize IconFinder (Objective-C AppKit) and then migrate to
 ## Recently completed (reflected in codebase)
 
 - Spotlight (fast) scanning mode via `mdfind` and set as default.
-- Preferences window with toggles for Deep Scan and Hide Duplicates.
+- Preferences/Settings window fixed (no overlapping controls); added divider styling for clarity.
+- New toggle: Exclude External Volumes (default ON); wired to scan pipeline.
+- Exclude from Scan list implemented and persisted; defaults to empty per KISS policy.
+- Defaults set per KISS: Deep Scan OFF, Hide Duplicates OFF, Exclude External Volumes ON, scan root `/` by default.
 - Exact-duplicate detection with SHA-256 hashing and cached hashes; View menu toggle to Hide/Show Duplicates.
 - Modernized alert/sheet usage (block-based API) and toolbar autosizing.
 - Project updates: Swift settings (Swift 5, embed stdlibs), asset catalog refresh, bridging header for ObjC/Swift interop.
@@ -45,8 +48,10 @@ High-level plan to modernize IconFinder (Objective-C AppKit) and then migrate to
 - [ ] Safer, faster scanning engine:
   - [x] Offer two modes: “Spotlight (fast)” via `mdfind` and “Deep Scan (full)” via `find` (Deep Scan toggle present; engine parity/internals still improving).
   - [ ] Build an argument array for `/usr/bin/find` (no string-splitting) to avoid shell metacharacter issues.
-  - [ ] Add directory allow/deny lists (skip hidden/system/virtual volumes unless requested).
-  - [ ] Throttle UI updates and batch-append results to reduce main-thread contention.
+  - [x] Directory deny list (Exclude from Scan) with UI and persistence; applied during scan.
+  - [ ] Directory allow list (Only scan these locations) — de-scoped by design (KISS: scan everywhere unless excluded).
+  - [x] Throttle UI updates and batch-append results to reduce main-thread contention.
+  - [x] Exclude External Volumes toggle (default ON) respected by scan pipeline.
 - [ ] Thumbnails and performance:
   - [ ] Use QuickLookThumbnailing to render thumbnails instead of loading full images.
   - [ ] Cache thumbnails to `~/Library/Caches/net.joerhodes.IconFinder/` with size keys.
@@ -70,7 +75,8 @@ High-level plan to modernize IconFinder (Objective-C AppKit) and then migrate to
   - [ ] Parameterize Team ID, identity, and Apple API key credentials via environment variables.
 - [ ] Documentation:
   - [x] Build commands documented in WARP.md.
-  - [ ] Add sign/notarize commands and cache/thumbnails paths; include a note on Spotlight vs Deep Scan behavior.
+  - [ ] Add sign/notarize commands and cache/thumbnails paths.
+  - [x] Document defaults, Spotlight vs Deep Scan behavior, Exclude External Volumes, and Exclude list in WARP.md.
 
 ## Phase 2 — Swift + SwiftUI migration (parallelizable once Phase 1 scan core is stable)
 

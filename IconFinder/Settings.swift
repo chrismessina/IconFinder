@@ -168,7 +168,7 @@ final class SettingsViewController: NSViewController, NSTableViewDataSource, NST
         // Exclude External Volumes is ON when IncludeExternalVolumes is false or missing (default exclude)
         let includeExternal = d.object(forKey: "IncludeExternalVolumes") as? Bool ?? false
         excludeExternalSwitch.state = includeExternal ? .off : .on
-        excludedRoots = d.stringArray(forKey: "DeniedRoots") ?? defaultDeniedRoots()
+        excludedRoots = d.stringArray(forKey: "DeniedRoots") ?? []
         excludedTable.reloadData()
     }
 
@@ -321,8 +321,8 @@ final class SettingsViewController: NSViewController, NSTableViewDataSource, NST
     }
 
     private func defaultDeniedRoots() -> [String] {
-        let home = NSHomeDirectory()
-        return [home + "/Library/Mobile Documents", "/Volumes/Time Machine Backups"]
+        // Default to empty; users can add exclusions as needed.
+        return []
     }
 
     private func displayPath(_ path: String) -> String {

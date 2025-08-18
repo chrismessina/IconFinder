@@ -200,21 +200,12 @@ static NSArray *imageTypes;
 - (void)findImagesShowingProgress:(BOOL)showProgress {
   BOOL deepScan =
       [[NSUserDefaults standardUserDefaults] boolForKey:@"DeepScanEnabled"];
+  // Scan everywhere by default (root), unless user specifies allowed roots.
   NSArray *allowed =
-      [[NSUserDefaults standardUserDefaults] arrayForKey:@"AllowedRoots"] ?: @[
-        @"/Applications", NSHomeDirectory(),
-        [NSHomeDirectory() stringByAppendingPathComponent:@"Library"],
-        @"/System/Library"
-      ];
+      [[NSUserDefaults standardUserDefaults] arrayForKey:@"AllowedRoots"] ?: @[ @"/" ];
+  // By default, do not exclude any specific paths (users can add exclusions).
   NSArray *denied =
-      [[NSUserDefaults standardUserDefaults] arrayForKey:@"DeniedRoots"] ?: @[
-        [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Caches"],
-        [NSHomeDirectory()
-            stringByAppendingPathComponent:@"Library/Containers"],
-        [NSHomeDirectory()
-            stringByAppendingPathComponent:@"Library/Mobile Documents"],
-        @"/private/var"
-      ];
+      [[NSUserDefaults standardUserDefaults] arrayForKey:@"DeniedRoots"] ?: @[];
   // Default: exclude external volumes unless explicitly included
   id includeObj = [[NSUserDefaults standardUserDefaults] objectForKey:@"IncludeExternalVolumes"];
   BOOL includeExternal = includeObj ? [[NSUserDefaults standardUserDefaults] boolForKey:@"IncludeExternalVolumes"] : NO;

@@ -7,6 +7,7 @@
 //
 
 #import "JRImageCollectionViewItemViewController.h"
+#import "JRThumbnailCache.h"
 
 @interface JRImageCollectionViewItemViewController ()
 
@@ -79,28 +80,22 @@
         CGFloat width = 88.0; // matches flow layout image height approximation
         CGSize thumbSize = CGSizeMake(width, width);
         // Defer to thumbnail cache
-        Class ThumbCache = NSClassFromString(@"JRThumbnailCache");
-        if (ThumbCache) {
-            id cache = ((id(*)(id, SEL))objc_msgSend)(ThumbCache, NSSelectorFromString(@"shared"));
-            if (cache && [cache respondsToSelector:NSSelectorFromString(@"thumbnailForPath:size:completion:")]) {
-                void (*thumbImp)(id, SEL, NSString*, CGSize, void(^)(NSImage*)) = (void(*)(id, SEL, NSString*, CGSize, void(^)(NSImage*))) [cache methodForSelector:NSSelectorFromString(@"thumbnailForPath:size:completion:")];
-                thumbImp(cache, NSSelectorFromString(@"thumbnailForPath:size:completion:"), currentPath, thumbSize, ^(NSImage *img){
-                    __strong typeof(weakSelf) selfStrong = weakSelf;
-                    if (!selfStrong) return;
-                    NSString *repPath = nil;
-                    if ([selfStrong.representedObject isKindOfClass:[NSString class]]) {
-                        repPath = (NSString *)selfStrong.representedObject;
-                    } else if ([selfStrong.representedObject isKindOfClass:[NSURL class]]) {
-                        repPath = [(NSURL *)selfStrong.representedObject path];
-                    } else if ([selfStrong.representedObject respondsToSelector:@selector(path)]) {
-                        @try { repPath = [selfStrong.representedObject valueForKey:@"path"]; } @catch (...) { repPath = nil; }
-                    }
-                    if ([repPath isEqualToString:currentPath]) {
-                        selfStrong.imageView.image = img;
-                    }
-                });
+        JRThumbnailCache *cache = [JRThumbnailCache shared];
+        [cache thumbnailForPath:currentPath size:thumbSize completion:^(NSImage *img){
+            __strong typeof(weakSelf) selfStrong = weakSelf;
+            if (!selfStrong) return;
+            NSString *repPath = nil;
+            if ([selfStrong.representedObject isKindOfClass:[NSString class]]) {
+                repPath = (NSString *)selfStrong.representedObject;
+            } else if ([selfStrong.representedObject isKindOfClass:[NSURL class]]) {
+                repPath = [(NSURL *)selfStrong.representedObject path];
+            } else if ([selfStrong.representedObject respondsToSelector:@selector(path)]) {
+                @try { repPath = [selfStrong.representedObject valueForKey:@"path"]; } @catch (...) { repPath = nil; }
             }
-        }
+            if ([repPath isEqualToString:currentPath]) {
+                selfStrong.imageView.image = img;
+            }
+        }];
     } else {
         self.imageView.image = nil;
         self.textField.stringValue = @"";

@@ -83,7 +83,9 @@ final class SettingsViewController: NSViewController, NSTableViewDataSource, NST
         let togglesCard = card()
         let sep = NSBox()
         sep.boxType = .separator
-        let togglesStack = NSStackView(views: [row1, desc, sep, row2, row3])
+        let sep2 = NSBox()
+        sep2.boxType = .separator
+        let togglesStack = NSStackView(views: [row1, desc, sep, row2, sep2, row3])
         togglesStack.orientation = .vertical
         togglesStack.spacing = 12
         togglesStack.alignment = .leading

@@ -1,8 +1,8 @@
 //
-//  PreferencesSwift.swift
+//  Settings.swift
 //  IconFinder
 //
-//  A tiny Swift wrapper to present a modern preferences window with Swift UI controls
+//  A tiny Swift wrapper to present a modern settings window with Swift UI controls
 //  while the app remains Objective-C.
 //
 
@@ -13,34 +13,42 @@ extension Notification.Name {
     static let JRAppSettingsDidChange = Notification.Name("AppSettingsDidChange")
 }
 
-@objc class JRPreferencesSwift: NSObject {
-    @objc static let shared = JRPreferencesSwift()
+@objc class JRSettings: NSObject {
+    @objc static let shared = JRSettings()
 
     private var windowController: NSWindowController?
 
-    @objc func showPreferences() {
+    @objc func showSettings() {
         if windowController == nil {
             windowController = buildWindow()
         }
         windowController?.showWindow(nil)
+        windowController?.window?.center()
         NSApp.activate(ignoringOtherApps: true)
     }
 
+    // AppKit convention uses `showPreferences:` for the menu action.
+    // Provide an Objective-C-visible shim that maps to our implementation.
+    @objc func showPreferences() {
+        showSettings()
+    }
+
     private func buildWindow() -> NSWindowController {
-        let vc = PreferencesViewController()
+        let vc = SettingsViewController()
         let window = NSWindow(contentViewController: vc)
         window.title = "Settings"
         window.styleMask = [.titled, .closable]
         window.isReleasedWhenClosed = false
-        window.setContentSize(NSSize(width: 600, height: 460))
+        window.setContentSize(NSSize(width: 640, height: 480))
+        window.contentMinSize = NSSize(width: 560, height: 420)
         return NSWindowController(window: window)
     }
 }
 
-final class PreferencesViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate
-{
+final class SettingsViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
     private let deepScanSwitch = NSSwitch()
     private let hideDupSwitch = NSSwitch()
+    private let excludeExternalSwitch = NSSwitch()
 
     // Exclude list (single list per mock)
     private var excludedRoots: [String] = []
@@ -48,11 +56,14 @@ final class PreferencesViewController: NSViewController, NSTableViewDataSource, 
     private let excludedScroll = NSScrollView()
 
     override func loadView() {
-        self.view = NSView()
-        self.view.translatesAutoresizingMaskIntoConstraints = false
+        // Give the root view a concrete frame; let it use autoresizing masks.
+        // This avoids ambiguous layout when hosted by NSWindow.
+        self.view = NSView(frame: NSRect(x: 0, y: 0, width: 640, height: 480))
+        // Do NOT disable autoresizing mask on the root view.
 
         let title1 = rowLabel("Enable Deep Scan")
         let title2 = rowLabel("Hide Duplicates")
+        let title3 = rowLabel("Exclude External Volumes")
         let desc = wrappingLabel(
             "Deep Scan walks the filesystem for images. It may take significantly longer than the default fast scan (Spotlight)."
         )
@@ -61,19 +72,23 @@ final class PreferencesViewController: NSViewController, NSTableViewDataSource, 
         deepScanSwitch.action = #selector(deepScanToggled(_:))
         hideDupSwitch.target = self
         hideDupSwitch.action = #selector(hideDuplicatesToggled(_:))
+        excludeExternalSwitch.target = self
+        excludeExternalSwitch.action = #selector(excludeExternalToggled(_:))
 
         let row1 = makeTrailingRow(label: title1, control: deepScanSwitch)
         let row2 = makeTrailingRow(label: title2, control: hideDupSwitch)
+        let row3 = makeTrailingRow(label: title3, control: excludeExternalSwitch)
 
         // Card for toggles
         let togglesCard = card()
         let sep = NSBox()
         sep.boxType = .separator
-        let togglesStack = NSStackView(views: [row1, desc, sep, row2])
+        let togglesStack = NSStackView(views: [row1, desc, sep, row2, row3])
         togglesStack.orientation = .vertical
         togglesStack.spacing = 12
         togglesStack.alignment = .leading
-        togglesStack.translatesAutoresizingMaskIntoConstraints = false
+        // Allow autoresizing within NSBox to avoid collapse/overlap.
+        togglesStack.translatesAutoresizingMaskIntoConstraints = true
         togglesCard.contentView = togglesStack
 
         // Exclude list UI
@@ -100,7 +115,8 @@ final class PreferencesViewController: NSViewController, NSTableViewDataSource, 
         excludedStack.orientation = .vertical
         excludedStack.spacing = 8
         excludedStack.alignment = .leading
-        excludedStack.translatesAutoresizingMaskIntoConstraints = false
+        // Allow autoresizing within NSBox so the scroll view lays out correctly.
+        excludedStack.translatesAutoresizingMaskIntoConstraints = true
         excludedCard.contentView = excludedStack
 
         let container = NSStackView()
@@ -108,12 +124,14 @@ final class PreferencesViewController: NSViewController, NSTableViewDataSource, 
         container.spacing = 14
         container.alignment = .leading
         container.translatesAutoresizingMaskIntoConstraints = false
+        container.setHuggingPriority(.defaultLow, for: .horizontal)
+        container.setHuggingPriority(.defaultLow, for: .vertical)
         container.addArrangedSubview(togglesCard)
         container.addArrangedSubview(listsHeader)
         container.addArrangedSubview(excludedCard)
 
         // Done button aligned right
-        let doneButton = NSButton(title: "Done", target: self, action: #selector(closePreferences))
+        let doneButton = NSButton(title: "Done", target: self, action: #selector(closeSettings))
         doneButton.bezelStyle = .rounded
         // Make it the default action (blue button, Return key)
         doneButton.keyEquivalent = "\r"
@@ -127,6 +145,8 @@ final class PreferencesViewController: NSViewController, NSTableViewDataSource, 
         view.addSubview(container)
 
         // Make cards expand to full available width in the container
+        togglesCard.translatesAutoresizingMaskIntoConstraints = false
+        excludedCard.translatesAutoresizingMaskIntoConstraints = false
         togglesCard.widthAnchor.constraint(equalTo: container.widthAnchor).isActive = true
         excludedCard.widthAnchor.constraint(equalTo: container.widthAnchor).isActive = true
 
@@ -143,6 +163,9 @@ final class PreferencesViewController: NSViewController, NSTableViewDataSource, 
         let d = UserDefaults.standard
         deepScanSwitch.state = d.bool(forKey: "DeepScanEnabled") ? .on : .off
         hideDupSwitch.state = d.bool(forKey: "HideDuplicates") ? .on : .off
+        // Exclude External Volumes is ON when IncludeExternalVolumes is false or missing (default exclude)
+        let includeExternal = d.object(forKey: "IncludeExternalVolumes") as? Bool ?? false
+        excludeExternalSwitch.state = includeExternal ? .off : .on
         excludedRoots = d.stringArray(forKey: "DeniedRoots") ?? defaultDeniedRoots()
         excludedTable.reloadData()
     }
@@ -203,7 +226,15 @@ final class PreferencesViewController: NSViewController, NSTableViewDataSource, 
         NotificationCenter.default.post(name: Notification.Name.JRAppSettingsDidChange, object: nil)
     }
 
-    @objc private func closePreferences() {
+    @objc private func excludeExternalToggled(_ sender: NSSwitch) {
+        // Store the inverse on the existing key to maintain compatibility
+        // Exclude External Volumes (ON) => IncludeExternalVolumes = false
+        let include = (sender.state == .on) ? false : true
+        UserDefaults.standard.set(include, forKey: "IncludeExternalVolumes")
+        NotificationCenter.default.post(name: Notification.Name.JRAppSettingsDidChange, object: nil)
+    }
+
+    @objc private func closeSettings() {
         view.window?.close()
     }
 

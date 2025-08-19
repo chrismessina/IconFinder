@@ -1,0 +1,6 @@
+Checks: '-*,clang-analyzer-*,bugprone-*,modernize-*,performance-*,readability-*'
+WarningsAsErrors: '*'
+HeaderFilterRegex: 'IconFinder/.*'
+AnalyzeTemporaryDtors: false
+FormatStyle: none
+User: {}

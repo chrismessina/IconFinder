@@ -1,0 +1,58 @@
+name: CI
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "**" ]
+
+jobs:
+  build-analyze-lint:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 16.4
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '16.4'
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Set env
+        run: |
+          echo "PROJ=IconFinder.xcodeproj" >> $GITHUB_ENV
+          echo "SCHEME=IconFinder" >> $GITHUB_ENV
+          echo "DERIVED=.build" >> $GITHUB_ENV
+
+      - name: Clean + Analyze (Clang Static Analyzer)
+        run: |
+          xcodebuild -project "$PROJ" -scheme "$SCHEME" -configuration Debug -derivedDataPath "$DERIVED" -quiet clean analyze | xcpretty || true
+        shell: bash
+
+      - name: Install xcpretty-json-compilation-database
+        run: |
+          gem install xcpretty-json-compilation-database --no-document
+
+      - name: Generate compile_commands.json
+        run: |
+          xcodebuild -project "$PROJ" -scheme "$SCHEME" -configuration Debug -derivedDataPath "$DERIVED" -quiet build | xcpretty-json-compilation-database --output compile_commands.json
+
+      - name: Run clang-tidy on Objective-C sources
+        run: |
+          # Find Objective-C implementation files in the main target
+          FILES=$(git ls-files | grep -E '^IconFinder/.+\.m$' || true)
+          if [ -z "$FILES" ]; then
+            echo "No Objective-C sources found to lint."
+          else
+            # Run clang-tidy; do not fail the job on warnings, but fail on errors
+            clang-tidy -p ./compile_commands.json $FILES || exit 1
+          fi
+
+      - name: Archive DerivedData (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: DerivedData
+          path: .build

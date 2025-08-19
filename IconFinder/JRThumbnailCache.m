@@ -7,7 +7,6 @@
 //
 
 #import "JRThumbnailCache.h"
-@import QuickLookThumbnailing;
 
 @interface JRThumbnailCache ()
 @property(nonatomic, strong) NSCache *memory;
@@ -47,34 +46,19 @@
   dispatch_async(self.workQueue, ^{
     NSImage *result = nil;
     NSURL *url = [NSURL fileURLWithPath:path];
-    if (@available(macOS 11.0, *)) {
-      QLThumbnailGenerator *gen = [QLThumbnailGenerator sharedGenerator];
-      QLThumbnailGenerationRequest *req = [[QLThumbnailGenerationRequest alloc]
-          initWithFileAtURL:url size:size scale:[NSScreen mainScreen].backingScaleFactor
-                    representationTypes:QLThumbnailGenerationRequestRepresentationTypeIcon];
-      dispatch_semaphore_t sema = dispatch_semaphore_create(0);
-      [gen generateBestRepresentationForRequest:req
-                              completionHandler:^(QLThumbnailRepresentation * _Nullable rep, NSError * _Nullable error) {
-        if (rep) { result = rep.NSImage; }
-        dispatch_semaphore_signal(sema);
-      }];
-      dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
-    }
-    if (!result) {
-      // Fallback: load image and downscale
-      NSImage *full = [[NSImage alloc] initWithContentsOfURL:url];
-      if (!full) { full = [[NSWorkspace sharedWorkspace] iconForFile:path]; }
-      if (full) {
-        result = [[NSImage alloc] initWithSize:size];
-        [result lockFocus];
-        [full drawInRect:NSMakeRect(0, 0, size.width, size.height)
-                 fromRect:NSZeroRect
-                operation:NSCompositingOperationSourceOver
-                 fraction:1.0
-           respectFlipped:YES
-                    hints:@{NSImageHintInterpolation: @(NSImageInterpolationHigh)}];
-        [result unlockFocus];
-      }
+    // Load image and downscale to thumbnail size; fall back to file icon
+    NSImage *full = [[NSImage alloc] initWithContentsOfURL:url];
+    if (!full) { full = [[NSWorkspace sharedWorkspace] iconForFile:path]; }
+    if (full) {
+      result = [[NSImage alloc] initWithSize:size];
+      [result lockFocus];
+      [full drawInRect:NSMakeRect(0, 0, size.width, size.height)
+               fromRect:NSZeroRect
+              operation:NSCompositingOperationSourceOver
+               fraction:1.0
+         respectFlipped:YES
+                  hints:@{NSImageHintInterpolation: @(NSImageInterpolationHigh)}];
+      [result unlockFocus];
     }
     if (result) { [self.memory setObject:result forKey:key]; }
     dispatch_async(dispatch_get_main_queue(), ^{ completion(result); });

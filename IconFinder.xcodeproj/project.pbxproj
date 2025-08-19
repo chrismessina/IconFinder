@@ -3,15 +3,19 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 90;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA0000100000000000000001 /* JRThumbnailCache.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0000110000000000000001 /* JRThumbnailCache.m */; };
+		5707E0E82E52B05100F9B07E /* ScanService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5707E0E72E52B05100F9B07E /* ScanService.swift */; };
+		5707E0E92E52B05100F9B07E /* JRScanServiceBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5707E0E62E52B05100F9B07E /* JRScanServiceBridge.m */; };
 		57B066DB2E51463F00CDE481 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57B066DA2E51463F00CDE481 /* Assets.xcassets */; };
+		57DB000C2E60000000ABC003 /* JRDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 57DB000B2E60000000ABC002 /* JRDatabase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		57DB000E2E60000000ABC005 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 57DB000D2E60000000ABC004 /* libsqlite3.tbd */; };
 		AA0000050000000000000001 /* JRConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0000060000000000000001 /* JRConstants.m */; };
-		AA0000080000000000000001 /* PreferencesSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000090000000000000001 /* PreferencesSwift.swift */; };
+		AA0000080000000000000001 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000090000000000000001 /* Settings.swift */; };
 		D803A2F015A172F40053D84A /* JRCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = D803A2EF15A172F40053D84A /* JRCollectionView.m */; };
-		D803A30315A175790053D84A /* IconFinder.icns in Resources */ = {isa = PBXBuildFile; fileRef = D803A30215A175790053D84A /* IconFinder.icns */; };
 		D8CD3DF215981BA600DFC994 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8CD3DF115981BA600DFC994 /* Cocoa.framework */; };
 		D8CD3DFC15981BA600DFC994 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D8CD3DFA15981BA600DFC994 /* InfoPlist.strings */; };
 		D8CD3DFE15981BA600DFC994 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D8CD3DFD15981BA600DFC994 /* main.m */; };
@@ -21,17 +25,26 @@
 		D8CD3E1415984E5700DFC994 /* JRImageCollectionItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = D8CD3E1315984E5700DFC994 /* JRImageCollectionItemView.m */; };
 		D8CD3E1915984FB300DFC994 /* JRImageCollectionViewItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8CD3E1715984FB300DFC994 /* JRImageCollectionViewItemViewController.m */; };
 		D8CD3E1A15984FB300DFC994 /* JRImageCollectionViewItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D8CD3E1815984FB300DFC994 /* JRImageCollectionViewItemViewController.xib */; };
+		D8CD3E1A15984FB300DFC994 /* JRImageCollectionViewItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D8CD3E1815984FB300DFC994 /* JRImageCollectionViewItemViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AA0000110000000000000001 /* JRThumbnailCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JRThumbnailCache.m; sourceTree = "<group>"; };
+		AA0000120000000000000001 /* JRThumbnailCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JRThumbnailCache.h; sourceTree = "<group>"; };
+		5707E0E42E52B05100F9B07E /* IconFinder-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IconFinder-Bridging-Header.h"; sourceTree = "<group>"; };
+		5707E0E52E52B05100F9B07E /* JRScanServiceBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JRScanServiceBridge.h; sourceTree = "<group>"; };
+		5707E0E62E52B05100F9B07E /* JRScanServiceBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JRScanServiceBridge.m; sourceTree = "<group>"; };
+		5707E0E72E52B05100F9B07E /* ScanService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanService.swift; sourceTree = "<group>"; };
 		57B066D82E511D4900CDE481 /* IconFinder.profdata */ = {isa = PBXFileReference; lastKnownFileType = file; path = IconFinder.profdata; sourceTree = "<group>"; };
 		57B066DA2E51463F00CDE481 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		57DB000A2E60000000ABC001 /* JRDatabase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JRDatabase.h; sourceTree = "<group>"; };
+		57DB000B2E60000000ABC002 /* JRDatabase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JRDatabase.m; sourceTree = "<group>"; };
+		57DB000D2E60000000ABC004 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		AA0000060000000000000001 /* JRConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JRConstants.m; sourceTree = "<group>"; };
 		AA0000070000000000000001 /* JRConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JRConstants.h; sourceTree = "<group>"; };
-AA0000090000000000000001 /* PreferencesSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesSwift.swift; sourceTree = "<group>"; };
+		AA0000090000000000000001 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		D803A2EE15A172F40053D84A /* JRCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCollectionView.h; sourceTree = "<group>"; };
 		D803A2EF15A172F40053D84A /* JRCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCollectionView.m; sourceTree = "<group>"; };
-		D803A30215A175790053D84A /* IconFinder.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = IconFinder.icns; sourceTree = "<group>"; };
 		D8CD3DED15981BA600DFC994 /* IconFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IconFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8CD3DF115981BA600DFC994 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		D8CD3DF415981BA600DFC994 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -55,11 +68,10 @@ AA0000090000000000000001 /* PreferencesSwift.swift */ = {isa = PBXFileReference;
 /* Begin PBXFrameworksBuildPhase section */
 		D8CD3DEA15981BA600DFC994 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				D8CD3DF215981BA600DFC994 /* Cocoa.framework in Frameworks */,
+				57DB000E2E60000000ABC005 /* libsqlite3.tbd in Frameworks */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
@@ -94,6 +106,7 @@ AA0000090000000000000001 /* PreferencesSwift.swift */ = {isa = PBXFileReference;
 			isa = PBXGroup;
 			children = (
 				D8CD3DF115981BA600DFC994 /* Cocoa.framework */,
+				57DB000D2E60000000ABC004 /* libsqlite3.tbd */,
 				D8CD3DF315981BA600DFC994 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -125,7 +138,15 @@ AA0000090000000000000001 /* PreferencesSwift.swift */ = {isa = PBXFileReference;
 				D803A2EF15A172F40053D84A /* JRCollectionView.m */,
 				AA0000070000000000000001 /* JRConstants.h */,
 				AA0000060000000000000001 /* JRConstants.m */,
-				AA0000090000000000000001 /* PreferencesSwift.swift */,
+				AA0000090000000000000001 /* Settings.swift */,
+				AA0000120000000000000001 /* JRThumbnailCache.h */,
+				AA0000110000000000000001 /* JRThumbnailCache.m */,
+				5707E0E42E52B05100F9B07E /* IconFinder-Bridging-Header.h */,
+				5707E0E52E52B05100F9B07E /* JRScanServiceBridge.h */,
+				5707E0E62E52B05100F9B07E /* JRScanServiceBridge.m */,
+				5707E0E72E52B05100F9B07E /* ScanService.swift */,
+				57DB000A2E60000000ABC001 /* JRDatabase.h */,
+				57DB000B2E60000000ABC002 /* JRDatabase.m */,
 			);
 			path = IconFinder;
 			sourceTree = "<group>";
@@ -133,7 +154,6 @@ AA0000090000000000000001 /* PreferencesSwift.swift */ = {isa = PBXFileReference;
 		D8CD3DF815981BA600DFC994 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D803A30215A175790053D84A /* IconFinder.icns */,
 				D8CD3DF915981BA600DFC994 /* IconFinder-Info.plist */,
 				D8CD3DFA15981BA600DFC994 /* InfoPlist.strings */,
 				D8CD3DFD15981BA600DFC994 /* main.m */,
@@ -157,8 +177,6 @@ AA0000090000000000000001 /* PreferencesSwift.swift */ = {isa = PBXFileReference;
 			);
 			buildRules = (
 			);
-			dependencies = (
-			);
 			name = IconFinder;
 			productName = IconFinder;
 			productReference = D8CD3DED15981BA600DFC994 /* IconFinder.app */;
@@ -175,7 +193,6 @@ AA0000090000000000000001 /* PreferencesSwift.swift */ = {isa = PBXFileReference;
 				LastUpgradeCheck = 1640;
 			};
 			buildConfigurationList = D8CD3DE715981BA600DFC994 /* Build configuration list for PBXProject "IconFinder" */;
-			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -183,6 +200,7 @@ AA0000090000000000000001 /* PreferencesSwift.swift */ = {isa = PBXFileReference;
 				Base,
 			);
 			mainGroup = D8CD3DE215981BA600DFC994;
+			preferredProjectObjectVersion = 90;
 			productRefGroup = D8CD3DEE15981BA600DFC994 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -195,33 +213,32 @@ AA0000090000000000000001 /* PreferencesSwift.swift */ = {isa = PBXFileReference;
 /* Begin PBXResourcesBuildPhase section */
 		D8CD3DEB15981BA600DFC994 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				D8CD3DFC15981BA600DFC994 /* InfoPlist.strings in Resources */,
 				D8CD3E0215981BA600DFC994 /* Credits.rtf in Resources */,
 				D8CD3E0815981BA600DFC994 /* MainMenu.xib in Resources */,
 				D8CD3E1A15984FB300DFC994 /* JRImageCollectionViewItemViewController.xib in Resources */,
 				57B066DB2E51463F00CDE481 /* Assets.xcassets in Resources */,
-				D803A30315A175790053D84A /* IconFinder.icns in Resources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D8CD3DE915981BA600DFC994 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				D8CD3DFE15981BA600DFC994 /* main.m in Sources */,
+				5707E0E82E52B05100F9B07E /* ScanService.swift in Sources */,
+				5707E0E92E52B05100F9B07E /* JRScanServiceBridge.m in Sources */,
 				D8CD3E0515981BA600DFC994 /* JRAppDelegate.m in Sources */,
 				D8CD3E1415984E5700DFC994 /* JRImageCollectionItemView.m in Sources */,
 				D8CD3E1915984FB300DFC994 /* JRImageCollectionViewItemViewController.m in Sources */,
 				D803A2F015A172F40053D84A /* JRCollectionView.m in Sources */,
 				AA0000050000000000000001 /* JRConstants.m in Sources */,
-				AA0000080000000000000001 /* PreferencesSwift.swift in Sources */,
+				AA0000080000000000000001 /* Settings.swift in Sources */,
+				AA0000100000000000000001 /* JRThumbnailCache.m in Sources */,
+				57DB000C2E60000000ABC003 /* JRDatabase.m in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
@@ -253,11 +270,12 @@ AA0000090000000000000001 /* PreferencesSwift.swift */ = {isa = PBXFileReference;
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		D8CD3E0915981BA600DFC994 /* Debug */ = {
+		D8CD3E0915981BA600DFC994 /* Debug configuration for PBXProject "IconFinder" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -305,11 +323,12 @@ AA0000090000000000000001 /* PreferencesSwift.swift */ = {isa = PBXFileReference;
 			};
 			name = Debug;
 		};
-		D8CD3E0A15981BA600DFC994 /* Release */ = {
+		D8CD3E0A15981BA600DFC994 /* Release configuration for PBXProject "IconFinder" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -349,14 +368,16 @@ AA0000090000000000000001 /* PreferencesSwift.swift */ = {isa = PBXFileReference;
 			};
 			name = Release;
 		};
-		D8CD3E0C15981BA600DFC994 /* Debug */ = {
+		D8CD3E0C15981BA600DFC994 /* Debug configuration for PBXNativeTarget "IconFinder" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CURRENT_PROJECT_VERSION = 100;
 				DEAD_CODE_STRIPPING = YES;
+				DEFINES_MODULE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IconFinder/IconFinder-Prefix.pch";
 				INFOPLIST_FILE = "IconFinder/IconFinder-Info.plist";
@@ -366,21 +387,22 @@ AA0000090000000000000001 /* PreferencesSwift.swift */ = {isa = PBXFileReference;
 				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.joerhodes.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = app;
-				SWIFT_VERSION = 5.0;
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "IconFinder/IconFinder-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
 		};
-		D8CD3E0D15981BA600DFC994 /* Release */ = {
+		D8CD3E0D15981BA600DFC994 /* Release configuration for PBXNativeTarget "IconFinder" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CURRENT_PROJECT_VERSION = 100;
 				DEAD_CODE_STRIPPING = YES;
+				DEFINES_MODULE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IconFinder/IconFinder-Prefix.pch";
 				INFOPLIST_FILE = "IconFinder/IconFinder-Info.plist";
@@ -390,9 +412,8 @@ AA0000090000000000000001 /* PreferencesSwift.swift */ = {isa = PBXFileReference;
 				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.joerhodes.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = app;
 				SWIFT_VERSION = 5.0;
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
 		};
@@ -402,19 +423,17 @@ AA0000090000000000000001 /* PreferencesSwift.swift */ = {isa = PBXFileReference;
 		D8CD3DE715981BA600DFC994 /* Build configuration list for PBXProject "IconFinder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D8CD3E0915981BA600DFC994 /* Debug */,
-				D8CD3E0A15981BA600DFC994 /* Release */,
+				D8CD3E0915981BA600DFC994 /* Debug configuration for PBXProject "IconFinder" */,
+				D8CD3E0A15981BA600DFC994 /* Release configuration for PBXProject "IconFinder" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		D8CD3E0B15981BA600DFC994 /* Build configuration list for PBXNativeTarget "IconFinder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D8CD3E0C15981BA600DFC994 /* Debug */,
-				D8CD3E0D15981BA600DFC994 /* Release */,
+				D8CD3E0C15981BA600DFC994 /* Debug configuration for PBXNativeTarget "IconFinder" */,
+				D8CD3E0D15981BA600DFC994 /* Release configuration for PBXNativeTarget "IconFinder" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */

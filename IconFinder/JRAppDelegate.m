@@ -13,6 +13,7 @@
 #import "JRScanServiceBridge.h"
 #import <CommonCrypto/CommonCrypto.h>
 #import <objc/message.h>
+#import "JRThumbnailCache.h"
 
 @class ScannedItem;
 
@@ -41,6 +42,8 @@
 // Settings
 @property(strong) id settingsController;
 @property(strong) NSTimer *rescanTimer;
+
+- (void)collectionViewScrolled:(NSNotification *)note;
 
 @end
 
@@ -156,6 +159,16 @@ static NSArray *imageTypes;
                 registerClass:[JRImageCollectionViewItemViewController class]
         forItemWithIdentifier:@"JRImageItem"];
   }
+
+  // Preheat thumbnails on scroll
+  if (self.collectionView.enclosingScrollView) {
+    self.collectionView.enclosingScrollView.contentView.postsBoundsChangedNotifications = YES;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(collectionViewScrolled:)
+                                                 name:NSViewBoundsDidChangeNotification
+                                               object:self.collectionView.enclosingScrollView.contentView];
+  }
+
   // Observe settings changes
   [[NSNotificationCenter defaultCenter]
       addObserver:self
@@ -559,6 +572,34 @@ static NSArray *imageTypes;
     [self.pathToHash setObject:result forKey:path];
   }
   return result;
+}
+
+- (void)collectionViewScrolled:(NSNotification *)note {
+  // Preheat around visible items
+  NSSet<NSIndexPath *> *visible = [self.collectionView indexPathsForVisibleItems];
+  if (visible.count == 0) return;
+  NSUInteger minIndex = NSUIntegerMax, maxIndex = 0;
+  for (NSIndexPath *ip in visible) {
+    if (ip.item < minIndex) minIndex = ip.item;
+    if (ip.item > maxIndex) maxIndex = ip.item;
+  }
+  if (minIndex == NSUIntegerMax) return;
+  // Preheat window: next 100 after and 50 before
+  NSInteger start = (NSInteger)minIndex - 50; if (start < 0) start = 0;
+  NSInteger end = (NSInteger)maxIndex + 100; if (end >= (NSInteger)[[self filteredImagePaths] count]) end = (NSInteger)[[self filteredImagePaths] count] - 1;
+  if (end < start) return;
+
+  CGFloat width = 88.0;
+  CGSize size = CGSizeMake(width, width);
+  JRThumbnailCache *cache = [JRThumbnailCache shared];
+  NSArray *paths = [self filteredImagePaths];
+  for (NSInteger i = start; i <= end; i++) {
+    id item = paths[(NSUInteger)i];
+    NSString *path = nil;
+    if ([item isKindOfClass:[NSString class]]) path = item;
+    else if ([item respondsToSelector:@selector(path)]) { @try { path = [item valueForKey:@"path"]; } @catch (...) { path = nil; } }
+    if (path) { [cache prefetchThumbnailForPath:path size:size]; }
+  }
 }
 
 @end

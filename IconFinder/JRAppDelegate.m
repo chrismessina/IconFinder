@@ -22,7 +22,7 @@
 @property(strong) NSMutableArray<ScannedItem *> *imagePaths;
 @property(assign) IBOutlet NSSegmentedControl *filterSegment;
 @property(strong) NSMutableSet *filters;
-@property(strong) NSPredicate *filterPredicate;
+@property(strong) NSPredicate *filterPredicate; // legacy
 @property(readonly) NSMutableArray<ScannedItem *> *filteredImagePaths;
 @property(strong) NSTask *findTask; // legacy; no longer used directly
 
@@ -88,11 +88,13 @@
       }
       self.lastFilteredCount = newCount;
       NSSet<NSIndexPath *> *insertSet = [toInsert copy];
-      [self.collectionView
-          performBatchUpdates:^{
-            [self.collectionView insertItemsAtIndexPaths:insertSet];
-          }
-            completionHandler:nil];
+      [NSAnimationContext beginGrouping];
+      [[NSAnimationContext currentContext] setDuration:0.0];
+      [[NSAnimationContext currentContext] setAllowsImplicitAnimation:NO];
+      [self.collectionView performBatchUpdates:^{
+        [self.collectionView insertItemsAtIndexPaths:insertSet];
+      } completionHandler:nil];
+      [NSAnimationContext endGrouping];
     } else {
       self.lastFilteredCount = newCount;
       [self.collectionView reloadData];
@@ -123,7 +125,8 @@ static NSArray *imageTypes;
 }
 
 + (NSSet *)keyPathsForValuesAffectingFilterPredicate {
-  return [NSSet setWithObjects:@"filters", nil];
+  // Legacy predicate-based filtering not used for performance; keep KVO minimal
+  return [NSSet set];
 }
 
 + (NSSet *)keyPathsForValuesAffectingImagePaths {
@@ -284,7 +287,7 @@ static NSArray *imageTypes;
                   selfStrong.pendingAdds += 1;
                   if (!selfStrong.uiCoalesceTimer) {
                     selfStrong.uiCoalesceTimer =
-                        [NSTimer scheduledTimerWithTimeInterval:0.2
+                        [NSTimer scheduledTimerWithTimeInterval:0.35
                                                          target:selfStrong
                                                        selector:@selector
                                                        (flushCoalescedUIUpdates)
@@ -308,7 +311,7 @@ static NSArray *imageTypes;
                   selfStrong.pendingAdds += 1;
                   if (!selfStrong.uiCoalesceTimer) {
                     selfStrong.uiCoalesceTimer =
-                        [NSTimer scheduledTimerWithTimeInterval:0.2
+                        [NSTimer scheduledTimerWithTimeInterval:0.35
                                                          target:selfStrong
                                                        selector:@selector
                                                        (flushCoalescedUIUpdates)
@@ -341,7 +344,7 @@ static NSArray *imageTypes;
             selfStrong.pendingAdds += added;
             if (!selfStrong.uiCoalesceTimer) {
               selfStrong.uiCoalesceTimer =
-                  [NSTimer scheduledTimerWithTimeInterval:0.2
+                  [NSTimer scheduledTimerWithTimeInterval:0.35
                                                    target:selfStrong
                                                  selector:@selector
                                                  (flushCoalescedUIUpdates)
@@ -401,13 +404,23 @@ static NSArray *imageTypes;
 }
 
 - (NSMutableArray<ScannedItem *> *)filteredImagePaths {
-  NSArray *base =
-      [self.imagePaths filteredArrayUsingPredicate:self.filterPredicate];
+  BOOL hasFilter = (self.filters.count  3e 0);
+  NSMutableArray *base;
+  if (!hasFilter) {
+    base = [self.imagePaths mutableCopy];
+  } else {
+    base = [NSMutableArray arrayWithCapacity:self.imagePaths.count];
+    for (id item in self.imagePaths) {
+      NSString *ext = nil;
+      @try { ext = [item valueForKey:@"extLower"]; } @catch (...) { ext = nil; }
+      if (ext && [self.filters containsObject:ext]) { [base addObject:item]; }
+    }
+  }
   if (!self.hideDuplicates) {
-    return [base mutableCopy];
+    return base;
   }
   // Hide exact duplicates by SHA-256; keep first occurrence
-  NSMutableArray<ScannedItem *> *result =
+  NSMutableArray\u003cScannedItem *\u003e *result =
       [NSMutableArray arrayWithCapacity:[base count]];
   NSMutableSet *seen = [NSMutableSet set];
   for (id item in base) {
@@ -429,11 +442,8 @@ static NSArray *imageTypes;
 }
 
 - (NSPredicate *)filterPredicate {
-  if ([self.filters count] > 0)
-    return [NSPredicate
-        predicateWithFormat:@"SELF.path.pathExtension IN %@", self.filters];
-  else
-    return [NSPredicate predicateWithValue:YES];
+  // Unused for performance
+  return [NSPredicate predicateWithValue:YES];
 }
 
 - (void)setFilterPredicate:(NSPredicate *)newFilterPredicate {
@@ -448,11 +458,10 @@ static NSArray *imageTypes;
   [self.filters removeAllObjects];
   NSInteger numSegments = [self.filterSegment segmentCount];
 
-  for (NSInteger index = 0; index < numSegments; index++) {
+  for (NSInteger index = 0; index  3c numSegments; index++) {
     if ([self.filterSegment isSelectedForSegment:index]) {
-      NSString *filterName = [self.filterSegment labelForSegment:index];
+      NSString *filterName = [[self.filterSegment labelForSegment:index] lowercaseString];
       [self.filters addObject:filterName];
-      [self.filters addObject:[filterName uppercaseString]];
     }
   }
 
